@@ -1,14 +1,14 @@
 {
   "name": "Kati Finance",
   "short_name": "Kati",
-  "start_url": "./index.html",
+  "start_url": "/Pencatatan_Keuangan/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#059669",
   "description": "Aplikasi pencatatan keuangan dan manajemen paket data.",
   "icons": [
     {
-      "src": "./logo.png",
+      "src": "/Pencatatan_Keuangan/logo.png",
       "sizes": "192x192 512x512",
       "type": "image/png",
       "purpose": "any maskable"
