@@ -12,9 +12,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- App Icons & PWA Manifest -->
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="apple-touch-icon" href="logo.png">
-  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" href="/Pencatatan_Keuangan/logo.png">
+  <link rel="apple-touch-icon" href="/Pencatatan_Keuangan/logo.png">
+  <link rel="manifest" href="/Pencatatan_Keuangan/manifest.json">
   <meta name="theme-color" content="#059669">
 
   <!-- Import Tailwind CSS dari CDN -->
@@ -386,6 +386,8 @@
                   <option value="">Pilih Jenis Paket</option>
                   <option value="VPN">VPN</option>
                   <option value="Reguler">Reguler</option>
+                  <option value="Mingguan">Mingguan</option>
+                  <option value="MasaAktif">Masa Aktif</option>
                 </select>
                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                   <i class="fas fa-chevron-down text-slate-400 text-sm"></i>
@@ -697,6 +699,48 @@
               </div>
             </div>
           </div>
+
+          <!-- MINGGUAN -->
+          <div class="p-4 bg-slate-50 border border-slate-100 rounded-xl relative">
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider absolute -top-2.5 bg-white px-2 left-3 rounded-full border border-slate-100">Paket Mingguan</h4>
+            <div class="grid grid-cols-2 gap-4 mt-2">
+              <div>
+                <label for="hargaMingguan" class="block text-xs font-semibold text-slate-600 mb-1">Harga Jual</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-sm font-medium">Rp</span>
+                  <input type="number" id="hargaMingguan" min="0" step="500" class="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500/50 text-sm font-medium" placeholder="0">
+                </div>
+              </div>
+              <div>
+                <label for="modalMingguan" class="block text-xs font-semibold text-slate-600 mb-1">Harga Modal</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-sm font-medium">Rp</span>
+                  <input type="number" id="modalMingguan" min="0" step="500" class="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500/50 text-sm font-medium" placeholder="0">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MASA AKTIF -->
+          <div class="p-4 bg-slate-50 border border-slate-100 rounded-xl relative">
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider absolute -top-2.5 bg-white px-2 left-3 rounded-full border border-slate-100">Masa Aktif</h4>
+            <div class="grid grid-cols-2 gap-4 mt-2">
+              <div>
+                <label for="hargaMasaAktif" class="block text-xs font-semibold text-slate-600 mb-1">Harga Jual</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-sm font-medium">Rp</span>
+                  <input type="number" id="hargaMasaAktif" min="0" step="500" class="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500/50 text-sm font-medium" placeholder="0">
+                </div>
+              </div>
+              <div>
+                <label for="modalMasaAktif" class="block text-xs font-semibold text-slate-600 mb-1">Harga Modal</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-sm font-medium">Rp</span>
+                  <input type="number" id="modalMasaAktif" min="0" step="500" class="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500/50 text-sm font-medium" placeholder="0">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="flex gap-3 mt-6">
@@ -729,7 +773,7 @@
     let filteredDataArray = []; // Array untuk menyimpan data yang telah difilter
     let editingIndex = -1; // Index data yang sedang diedit
     let monthlyChart = null; // Variable untuk chart bulanan
-    let modalHarga = { VPN: { harga: 0, modal: 0 }, Reguler: { harga: 0, modal: 0 } }; // Menyimpan data modal dan harga opsi
+    let modalHarga = { VPN: { harga: 0, modal: 0 }, Reguler: { harga: 0, modal: 0 }, Mingguan: { harga: 0, modal: 0 }, MasaAktif: { harga: 0, modal: 0 } }; // Menyimpan data modal dan harga opsi
 
     // ==========================================
     // FUNGSI UNTUK FORMAT RUPIAH
@@ -784,10 +828,16 @@
           modalHarga = snapshot.val();
           if (!modalHarga.VPN) modalHarga.VPN = { harga: 0, modal: 0 };
           if (!modalHarga.Reguler) modalHarga.Reguler = { harga: 0, modal: 0 };
+          if (!modalHarga.Mingguan) modalHarga.Mingguan = { harga: 0, modal: 0 };
+          if (!modalHarga.MasaAktif) modalHarga.MasaAktif = { harga: 0, modal: 0 };
           document.getElementById("hargaVPN").value = modalHarga.VPN.harga || 0;
           document.getElementById("modalVPN").value = modalHarga.VPN.modal || 0;
           document.getElementById("hargaReguler").value = modalHarga.Reguler.harga || 0;
           document.getElementById("modalReguler").value = modalHarga.Reguler.modal || 0;
+          document.getElementById("hargaMingguan").value = modalHarga.Mingguan.harga || 0;
+          document.getElementById("modalMingguan").value = modalHarga.Mingguan.modal || 0;
+          document.getElementById("hargaMasaAktif").value = modalHarga.MasaAktif.harga || 0;
+          document.getElementById("modalMasaAktif").value = modalHarga.MasaAktif.modal || 0;
         } else {
           // Cek path lama jika sebelumnya hanya save modal
           db.ref("pengaturan/modal").once("value").then(snap2 => {
@@ -795,8 +845,12 @@
               const legacy = snap2.val();
               modalHarga.VPN.modal = legacy.VPN || 0;
               modalHarga.Reguler.modal = legacy.Reguler || 0;
+              modalHarga.Mingguan.modal = legacy.Mingguan || 0;
+              modalHarga.MasaAktif.modal = legacy.MasaAktif || 0;
               document.getElementById("modalVPN").value = legacy.VPN || 0;
               document.getElementById("modalReguler").value = legacy.Reguler || 0;
+              document.getElementById("modalMingguan").value = legacy.Mingguan || 0;
+              document.getElementById("modalMasaAktif").value = legacy.MasaAktif || 0;
             }
           });
         }
@@ -1600,19 +1654,23 @@
 
       let vpn = 0;
       let reguler = 0;
+      let mingguan = 0;
+      let masaAktif = 0;
 
       filteredDataArray.forEach(item => {
         if (item.jenisPaket === 'VPN') vpn++;
         else if (item.jenisPaket === 'Reguler') reguler++;
+        else if (item.jenisPaket === 'Mingguan') mingguan++;
+        else if (item.jenisPaket === 'MasaAktif') masaAktif++;
       });
 
       pieJenisChart = new Chart(ctx, {
         type: 'pie',
         data: {
-          labels: ['VPN', 'Reguler'],
+          labels: ['VPN', 'Reguler', 'Mingguan', 'Masa Aktif'],
           datasets: [{
-            data: [vpn, reguler],
-            backgroundColor: ['#3b82f6', '#f472b6'], // Biru & Pink
+            data: [vpn, reguler, mingguan, masaAktif],
+            backgroundColor: ['#3b82f6', '#f472b6', '#f59e0b', '#10b981'], // Biru, Pink, Kuning, Hijau
             borderWidth: 0
           }]
         },
@@ -1648,10 +1706,16 @@
       const modalVPN = parseFloat(document.getElementById("modalVPN").value) || 0;
       const hargaReguler = parseFloat(document.getElementById("hargaReguler").value) || 0;
       const modalReguler = parseFloat(document.getElementById("modalReguler").value) || 0;
+      const hargaMingguan = parseFloat(document.getElementById("hargaMingguan").value) || 0;
+      const modalMingguan = parseFloat(document.getElementById("modalMingguan").value) || 0;
+      const hargaMasaAktif = parseFloat(document.getElementById("hargaMasaAktif").value) || 0;
+      const modalMasaAktif = parseFloat(document.getElementById("modalMasaAktif").value) || 0;
 
       const settings = {
         VPN: { harga: hargaVPN, modal: modalVPN },
-        Reguler: { harga: hargaReguler, modal: modalReguler }
+        Reguler: { harga: hargaReguler, modal: modalReguler },
+        Mingguan: { harga: hargaMingguan, modal: modalMingguan },
+        MasaAktif: { harga: hargaMasaAktif, modal: modalMasaAktif }
       };
 
       db.ref("pengaturan/hargapaket").set(settings)
@@ -1683,7 +1747,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('/Pencatatan_Keuangan/sw.js')
           .then((registration) => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
           })
